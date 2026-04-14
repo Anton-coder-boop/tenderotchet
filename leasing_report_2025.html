@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рынок лизинга России — 1 полугодие 2025</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--primary-gradient);
+            border-radius: 24px;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .stat-card h3 {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card .value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-card .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+        }
+
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .chart-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .chart-container h2 {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Leaders Table */
+        .leaders-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
+        }
+
+        .leaders-section h2 {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .leaders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaders-table th,
+        .leaders-table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .leaders-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .leaders-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .rank {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .company-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .trend-up {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .trend-down {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .trend-stable {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* Insights Section */
+        .insights-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .insight-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .insight-card:hover {
+            transform: scale(1.02);
+        }
+
+        .insight-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .insight-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .insight-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Progress Bars */
+        .concentration-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
+        }
+
+        .concentration-section h2 {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .progress-item {
+            margin-bottom: 30px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 10px;
+            transition: width 1.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card .value {
+                font-size: 2.5rem;
+            }
+
+            .leaders-table {
+                font-size: 0.9rem;
+            }
+
+            .leaders-table th,
+            .leaders-table td {
+                padding: 15px 10px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero animate">
+            <h1>📊 Рынок лизинга России</h1>
+            <p>Итоги 1-го полугодия 2025 года | Данные: Эксперт РА</p>
+        </section>
+
+        <!-- Key Stats -->
+        <section class="stats-grid">
+            <div class="stat-card animate delay-1">
+                <h3>Объем нового бизнеса</h3>
+                <div class="value">815,3</div>
+                <div class="subtitle">млрд рублей за 1пг 2025</div>
+            </div>
+            <div class="stat-card animate delay-2">
+                <h3>Совокупный портфель</h3>
+                <div class="value">12,4</div>
+                <div class="subtitle">трлн рублей на 01.07.2025</div>
+            </div>
+            <div class="stat-card animate delay-3">
+                <h3>Количество компаний</h3>
+                <div class="value">109</div>
+                <div class="subtitle">участников рейтинга</div>
+            </div>
+            <div class="stat-card animate delay-4">
+                <h3>Лидер рынка</h3>
+                <div class="value">23%</div>
+                <div class="subtitle">доля Газпромбанк Лизинг в НБ</div>
+            </div>
+        </section>
+
+        <!-- Charts -->
+        <section class="charts-section">
+            <div class="chart-container animate">
+                <h2>🏆 Топ-10 по новому бизнесу (млрд руб.)</h2>
+                <canvas id="top10Chart"></canvas>
+            </div>
+            <div class="chart-container animate">
+                <h2>📈 Доля рынка Топ-3 vs Остальные</h2>
+                <canvas id="marketShareChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Market Concentration -->
+        <section class="concentration-section animate">
+            <h2>🎯 Концентрация рынка</h2>
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Доля Топ-3 в новом бизнесе</span>
+                    <span>38,9%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%" data-width="38.9%">38,9%</div>
+                </div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Доля Топ-10 в новом бизнесе</span>
+                    <span>73,4%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%" data-width="73.4%">73,4%</div>
+                </div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Доля Топ-3 в портфеле</span>
+                    <span>48,0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%" data-width="48.0%">48,0%</div>
+                </div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Доля Топ-10 в портфеле</span>
+                    <span>87,4%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%" data-width="87.4%">87,4%</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaders Table -->
+        <section class="leaders-section animate">
+            <h2>🥇 Топ-10 лизинговых компаний</h2>
+            <table class="leaders-table">
+                <thead>
+                    <tr>
+                        <th>Место</th>
+                        <th>Компания</th>
+                        <th>Новый бизнес (млрд ₽)</th>
+                        <th>Портфель (млрд ₽)</th>
+                        <th>Динамика НБ</th>
+                        <th>Кредитный рейтинг</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="rank">1</span></td>
+                        <td class="company-name">Газпромбанк Лизинг (ГК)</td>
+                        <td>187,8</td>
+                        <td>2 202,8</td>
+                        <td class="trend-stable">→ 1</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank">2</span></td>
+                        <td class="company-name">ГТЛК</td>
+                        <td>69,3</td>
+                        <td>2 918,5</td>
+                        <td class="trend-up">↑ +3</td>
+                        <td>ruAA-</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank">3</span></td>
+                        <td class="company-name">Альфа-Лизинг (ГК)</td>
+                        <td>60,5</td>
+                        <td>835,9</td>
+                        <td class="trend-stable">→ 0</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank">4</span></td>
+                        <td class="company-name">Сбербанк Лизинг (ГК)</td>
+                        <td>58,5</td>
+                        <td>2 047,1</td>
+                        <td class="trend-up">↑ +3</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank">5</span></td>
+                        <td class="company-name">Балтийский лизинг (ГК)</td>
+                        <td>51,0</td>
+                        <td>284,2</td>
+                        <td class="trend-up">↑ +1</td>
+                        <td>ruAA-</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank">6</span></td>
+                        <td class="company-name">ПСБ Лизинг</td>
+                        <td>41,2</td>
+                        <td>613,4</td>
+                        <td class="trend-up">↑ +4</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank">7</span></td>
+                        <td class="company-name">ВТБ Лизинг (ГК)</td>
+                        <td>37,0</td>
+                        <td>1 051,9</td>
+                        <td class="trend-down">↓ -5</td>
+                        <td>ruAA</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank">8</span></td>
+                        <td class="company-name">ЛК «Европлан»</td>
+                        <td>36,4</td>
+                        <td>349,8</td>
+                        <td class="trend-down">↓ -4</td>
+                        <td>ruAA</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank">9</span></td>
+                        <td class="company-name">РЕСО-Лизинг</td>
+                        <td>29,7</td>
+                        <td>197,8</td>
+                        <td class="trend-stable">→ 0</td>
+                        <td>ruAA-</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank">10</span></td>
+                        <td class="company-name">Росагролизинг</td>
+                        <td>26,7</td>
+                        <td>359,7</td>
+                        <td class="trend-down">↓ -2</td>
+                        <td>ruAA-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Insights -->
+        <section class="insights-section">
+            <div class="insight-card animate">
+                <div class="insight-icon">🔴</div>
+                <h3>Высокая концентрация</h3>
+                <p>Топ-10 компаний контролируют 73,4% нового бизнеса и 87,4% портфеля. Ярко выраженная олигополистическая структура рынка с высокими барьерами входа.</p>
+            </div>
+            <div class="insight-card animate">
+                <div class="insight-icon">🏛️</div>
+                <h3>Государственное доминирование</h3>
+                <p>Газпромбанк Лизинг и ГТЛК занимают лидирующие позиции. Банковские структуры с господдержкой определяют правила игры на рынке.</p>
+            </div>
+            <div class="insight-card animate">
+                <div class="insight-icon">📊</div>
+                <h3>Портфель vs Новый бизнес</h3>
+                <p>ГТЛК лидирует по портфелю (2,9 трлн ₽), но уступает по новому бизнесу. Это указывает на долгосрочные инфраструктурные проекты.</p>
+            </div>
+            <div class="insight-card animate">
+                <div class="insight-icon">⭐</div>
+                <h3>Кредитные рейтинги</h3>
+                <p>Высокие рейтинги (ruAA, ruAA-) только у лидеров. Это создает преимущество в доступе к дешевому финансированию для крупных игроков.</p>
+            </div>
+            <div class="insight-card animate">
+                <div class="insight-icon">💰</div>
+                <h3>Платежная дисциплина</h3>
+                <p>Газпромбанк Лизинг лидирует по полученным платежам (393,8 млрд ₽), что отражает качество портфеля и эффективность сбора.</p>
+            </div>
+            <div class="insight-card animate">
+                <div class="insight-icon">🔄</div>
+                <h3>Оперативный лизинг</h3>
+                <p>Доля оперативного лизинга минимальна. Тренд на развитие операционной модели пока слабый, рынок ориентирован на финансовый лизинг.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Источник данных: Рейтинговое агентство «Эксперт РА»</p>
+            <p>Дата публикации: 25 августа 2025 года</p>
+            <p style="margin-top: 20px; font-size: 0.9rem;">* Данные по портфелю Газпромбанк Лизинг были обновлены 03.09.2025 в части расчета НДС</p>
+        </footer>
+    </div>
+
+    <script>
+        // Chart configurations
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#94a3b8',
+                        font: { size: 12 }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: '#94a3b8' },
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                },
+                y: {
+                    ticks: { color: '#94a3b8' },
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                }
+            }
+        };
+
+        // Top 10 Chart
+        const top10Ctx = document.getElementById('top10Chart').getContext('2d');
+        new Chart(top10Ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Газпромбанк', 'ГТЛК', 'Альфа-Лизинг', 'Сбербанк', 'Балтийский', 'ПСБ', 'ВТБ', 'Европлан', 'РЕСО', 'Росагро'],
+                datasets: [{
+                    label: 'Новый бизнес (млрд ₽)',
+                    data: [187.8, 69.3, 60.5, 58.5, 51.0, 41.2, 37.0, 36.4, 29.7, 26.7],
+                    backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                ...commonOptions,
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+
+        // Market Share Chart
+        const shareCtx = document.getElementById('marketShareChart').getContext('2d');
+        new Chart(shareCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Топ-3 компании', 'Остальные 106 компаний'],
+                datasets: [{
+                    data: [38.9, 61.1],
+                    backgroundColor: [
+                        'rgba(102, 126, 234, 0.9)',
+                        'rgba(148, 163, 184, 0.3)'
+                    ],
+                    borderColor: [
+                        'rgba(102, 126, 234, 1)',
+                        'rgba(148, 163, 184, 0.5)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#94a3b8',
+                            font: { size: 14 }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Animate progress bars on scroll
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBars = entry.target.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        const targetWidth = bar.getAttribute('data-width');
+                        setTimeout(() => {
+                            bar.style.width = targetWidth;
+                        }, 200);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.concentration-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Add hover effects to table rows
+        document.querySelectorAll('.leaders-table tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'scale(1.01)';
+                row.style.transition = 'transform 0.2s ease';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
