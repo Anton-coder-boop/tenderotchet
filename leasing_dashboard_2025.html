@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аналитика Автолизинга 2025 | Стратегия Дилера</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
+            --accent-orange: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid #334155;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* KPI Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .kpi-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #334155;
+            transition: transform 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 10px 0;
+        }
+
+        .kpi-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .kpi-trend {
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .trend-up { color: var(--accent-green); }
+        .trend-down { color: var(--danger); }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .chart-container {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid #334155;
+            height: 400px;
+            position: relative;
+        }
+
+        /* Strategy Section */
+        .strategy-section {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid #334155;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-blue);
+            transition: all 0.3s ease;
+        }
+
+        .step-card:nth-child(2) { border-left-color: var(--accent-green); }
+        .step-card:nth-child(3) { border-left-color: var(--accent-purple); }
+        .step-card:nth-child(4) { border-left-color: var(--accent-orange); }
+
+        .step-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(5px);
+        }
+
+        .step-number {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .step-list {
+            list-style: none;
+        }
+
+        .step-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .step-list li::before {
+            content: "•";
+            color: var(--accent-blue);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Benefits & Risks Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .info-card.benefits { border-top: 3px solid var(--accent-green); }
+        .info-card.risks { border-top: 3px solid var(--danger); }
+
+        .info-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .tag-blue { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .tag-green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        .tag-purple { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid #334155;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid, .info-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Рынок Автолизинга России 2025</h1>
+            <p class="subtitle">Аналитический дашборд и стратегия развития для дилерского центра</p>
+        </header>
+
+        <!-- KPI Section -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Объем Нового Бизнеса (Топ-20)</div>
+                <div class="kpi-value">2.89 трлн ₽</div>
+                <div class="kpi-trend trend-up">▲ Лидеры: ГПБ, Сбер, ГТЛК</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Совокупный Портфель (Топ-20)</div>
+                <div class="kpi-value">15.6 трлн ₽</div>
+                <div class="kpi-trend trend-up">▲ Консолидация рынка</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Доля Топ-10 в Новом Бизнесе</div>
+                <div class="kpi-value">85.2%</div>
+                <div class="kpi-trend trend-down">▼ Высокий барьер входа</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Оперативный Лизинг (Топ-20)</div>
+                <div class="kpi-value">31.5 млрд ₽</div>
+                <div class="kpi-trend trend-up">▲ Точка роста для дилеров</div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-grid">
+            <div class="chart-container">
+                <canvas id="newBusinessChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="portfolioChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="operationalLeasingChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="scatterChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Strategy Section for Dealer -->
+        <div class="strategy-section">
+            <h2>🚀 Стратегия для Дилерского Центра (Продажи + Сервис)</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                Учитывая вашу специализацию на новом легковом транспорте и LCV, а также наличии сервисной базы, 
+                ниже представлен пошаговый план захвата доли рынка лизинга.
+            </p>
+
+            <div class="strategy-grid">
+                <!-- Step 1 -->
+                <div class="step-card">
+                    <span class="step-number">ШАГ 1</span>
+                    <div class="step-title">Запуск Captive-лизинга / White Label</div>
+                    <ul class="step-list">
+                        <li>Создайте продукт "Лизинг + Обязательный сервисный контракт".</li>
+                        <li>Клиент берет машину, но обязуется проходить ТО только у вас.</li>
+                        <li>Это гарантирует LTV (пожизненную ценность) клиента и маржу от постпродажки.</li>
+                        <li>Используйте бренд дилера или партнерство с мелкой ЛК под вашим контролем.</li>
+                    </ul>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-card">
+                    <span class="step-number">ШАГ 2</span>
+                    <div class="step-title">Атака сегмента Оперативного Лизинга</div>
+                    <ul class="step-list">
+                        <li>Фокус на флоты LCV и такси (ваш профиль).</li>
+                        <li>Продукт "Автоподписка": Авто + ТО + Шиномонтаж + Подменный фонд.</li>
+                        <li>Банки не могут дать сервис "из коробки" — это ваше УТП.</li>
+                        <li>Списание платежей как операционные расходы для клиента.</li>
+                    </ul>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-card">
+                    <span class="step-number">ШАГ 3</span>
+                    <div class="step-title">Цифровизация и Скорость</div>
+                    <ul class="step-list">
+                        <li>Внедрите ЭЦП и скоринг за 1 час (пример Т-Лизинг, Озон).</li>
+                        <li>Интегрируйте калькулятор в CRM: предложение лизинга сразу на тест-драйве.</li>
+                        <li>Минимум бумаг: паспорт + уставные документы.</li>
+                        <li>Онлайн-трекинг статуса заявки для клиента.</li>
+                    </ul>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-card">
+                    <span class="step-number">ШАГ 4</span>
+                    <div class="step-title">Замыкание цикла (Трейд-ин)</div>
+                    <ul class="step-list">
+                        <li>Мониторинг окончаний договоров (за 3 месяца до конца).</li>
+                        <li>Оффер: "Сдай нам в трейд-ин → Обнули первый взнос на новую".</li>
+                        <li>Выкуп авто у лизинговой компании силами дилера.</li>
+                        <li>Продажа выкупленных авто как "сертифицированных б/у".</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card benefits">
+                    <div class="info-title" style="color: var(--accent-green);">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"></path></svg>
+                        Финансовая выгода для клиента
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <span class="tag tag-green">Экономия налогов до 45%</span>
+                        <span class="tag tag-green">Скидки дилера на авто</span>
+                        <span class="tag tag-green">Пакет: Лизинг + КАСКО + ТО</span>
+                        <span class="tag tag-green">Гибкий график платежей</span>
+                        <span class="tag tag-green">Баланс на балансе лизинговой</span>
+                    </div>
+                </div>
+                <div class="info-card risks">
+                    <div class="info-title" style="color: var(--danger);">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        Управление рисками
+                    </div>
+                    <ul class="step-list" style="margin-top: 10px;">
+                        <li>Страхование титула и жизни заемщика.</li>
+                        <li>Установка GPS-трекеров на весь парк.</li>
+                        <li>Фокус на ликвидные модели (Lada, Haval, Chery).</li>
+                        <li>Возможность факторинга портфеля для разгрузки баланса.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Источник данных: Рейтинг «Эксперт РА» 2025, Аналитика рынка лизинга РФ.</p>
+            <p>Подготовлено для стратегического планирования автомобильного бизнеса.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Data Preparation
+        const nbData = [447711, 223987, 162203, 135459, 108431, 105600, 88473, 76769, 57806, 55927];
+        const nbLabels = ['ГПБ Лизинг', 'Сбер Лизинг', 'ГТЛК', 'Балтийский', 'Альфа-Лизинг', 'ВТБ Лизинг', 'Европлан', 'Росагролизинг', 'Совкомбанк', 'РЕСО-Лизинг'];
+        
+        const portData = [2827395, 2404795, 2241555, 1112295, 926634, 663520, 600185, 445978, 395573, 312914];
+        const portLabels = ['ГТЛК', 'ГПБ Лизинг', 'Сбер Лизинг', 'ВТБ Лизинг', 'Альфа-Лизинг', 'ПСБ Лизинг', 'Европлан', 'Росагролизинг', 'Балтийский', 'Совкомбанк'];
+
+        const opData = [9840, 4374, 2668, 1977, 1130, 529, 457, 370, 232, 224];
+        const opLabels = ['Балтийский', 'РСХБ', 'Мэйджор', 'Карго Лизинг', 'КАРГО АРЕНДА', 'Роделен', 'ГК ФЛИТ', 'КОНТРОЛ', 'ВТБ', 'Совкомбанк'];
+
+        const scatterData = [
+            {x: 447711, y: 2404795, label: 'ГПБ'}, {x: 223987, y: 2241555, label: 'Сбер'},
+            {x: 162203, y: 2827395, label: 'ГТЛК'}, {x: 135459, y: 312914, label: 'Балтийский'},
+            {x: 108431, y: 926634, label: 'Альфа'}, {x: 105600, y: 1112295, label: 'ВТБ'},
+            {x: 88473, y: 445978, label: 'Европлан'}, {x: 76769, y: 395573, label: 'Росагро'},
+            {x: 57806, y: 136257, label: 'Совком'}, {x: 55927, y: 229835, label: 'РЕСО'}
+        ];
+
+        // Chart Config
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = 'Inter';
+
+        new Chart(document.getElementById('newBusinessChart'), {
+            type: 'bar',
+            data: {
+                labels: nbLabels,
+                datasets: [{
+                    label: 'Новый бизнес 2025 (млн ₽)',
+                    data: nbData,
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Топ-10 по Новому Бизнесу', font: {size: 16} }
+                },
+                scales: {
+                    y: { grid: { color: '#334155' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('portfolioChart'), {
+            type: 'bar',
+            data: {
+                labels: portLabels,
+                datasets: [{
+                    label: 'Портфель на 01.01.26 (млн ₽)',
+                    data: portData,
+                    backgroundColor: '#8b5cf6',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Топ-10 по Портфелю', font: {size: 16} }
+                },
+                scales: {
+                    y: { grid: { color: '#334155' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('operationalLeasingChart'), {
+            type: 'doughnut',
+            data: {
+                labels: opLabels,
+                datasets: [{
+                    data: opData,
+                    backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#6366f1', '#14b8a6', '#f97316', '#64748b'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right', labels: { boxWidth: 12 } },
+                    title: { display: true, text: 'Лидеры Оперативного Лизинга (млн ₽)', font: {size: 16} }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('scatterChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Компании',
+                    data: scatterData,
+                    backgroundColor: '#3b82f6',
+                    pointRadius: 8,
+                    pointHoverRadius: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Эффективность: Новый Бизнес vs Портфель', font: {size: 16} },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.raw.label + ` (НБ: ${context.raw.x}, Портфель: ${context.raw.y})`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { 
+                        type: 'linear', 
+                        position: 'bottom',
+                        title: { display: true, text: 'Новый бизнес 2025' },
+                        grid: { color: '#334155' }
+                    },
+                    y: { 
+                        title: { display: true, text: 'Портфель' },
+                        grid: { color: '#334155' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
